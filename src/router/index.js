@@ -10,18 +10,27 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      component: index,
+      component: index
     },
     {
       path: "/submit",
       name: "submit",
-      component: () => import('../pages/submit')
+      component: () => import("../pages/submit")
     },
     {
       path: "/end",
       name: "end",
-      component: () => import('../pages/end')
+      component: () => import("../pages/end")
+    },
+    {
+      path: "/parsing",
+      name: "parsing",
+      component: () => import("../pages/parsing")
+    },
+    {
+      path: "/ranking",
+      name: "ranking",
+      component: () => import("../pages/ranking")
     }
-
   ]
 });
