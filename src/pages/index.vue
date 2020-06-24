@@ -29,15 +29,6 @@
            <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="B">B <img class="images" :src="items.options.B" alt=""></el-radio></li>
            <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="C">C <img class="images" :src="items.options.C" alt=""></el-radio></li>
            <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="D">D <img class="images" :src="items.options.D" alt=""></el-radio></li>
-          <!-- <el-checkbox-group v-model="items.userneed" @change='answerChange'>
-            <el-checkbox class="imagewrap" label="A">A <img class="images" :src="items.options.A" alt=""></el-checkbox>
-            <br>
-            <el-checkbox class="imagewrap" label="B">B <img class="images"  :src="items.options.B" alt=""></el-checkbox>
-             <br>
-            <el-checkbox class="imagewrap" label="C">C <img class="images"  :src="items.options.C" alt=""></el-checkbox>
-             <br>
-            <el-checkbox class="imagewrap" label="D">D <img class="images"  :src="items.options.D" alt=""></el-checkbox>
-          </el-checkbox-group> -->
         </ul>
       </div>
       <div class="clear"></div>
@@ -121,6 +112,15 @@ export default {
     // var s = setInterval(() => {
     //   this.times++
     // }, 1000);
+    this.$axios({
+      method: 'get',
+      url: 'http://oea.test:8080/send',
+      data: ''
+    }).then((response) => { // 这里使用了ES6的语法
+      console.log(response) // 请求成功返回的数据
+    }).catch((error) => {
+      console.log(error) // 请求失败返回的数据
+    })
   },
   methods: {
     answerChange (value) {
