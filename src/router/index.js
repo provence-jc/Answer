@@ -26,6 +26,11 @@ export default new Router({
       path: "/parsing",
       name: "parsing",
       component: () => import("../pages/parsing")
+    },
+    {
+      path: "/ranking",
+      name: "ranking",
+      component: () => import("../pages/ranking")
     }
   ]
 });

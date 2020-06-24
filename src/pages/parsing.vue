@@ -8,22 +8,44 @@
       <div class="topic" v-for="(items, index) of test" :key="index">
         <p class="topic-top">第{{ items.id }}题</p>
         <p class="topic-text">{{ items.title }}</p>
-        <ul class="topic-list" :scoreData="score">
+        <ul class="topic-list" v-if="items.type === 1">
           <li>
-            <input type="checkbox" /><span class="topic-list-key">A</span
-            >{{ items.options.A }}
+            <el-radio v-model="items.userneed" label="A">{{
+              items.options.A
+            }}</el-radio>
+            <div class="topic-list-err">错误</div>
+            <div class="topic-list-correct">正确</div>
           </li>
           <li>
-            <input type="checkbox" /><span class="topic-list-key">B</span
-            >{{ items.options.B }}
+            <el-radio v-model="items.userneed" label="B">{{
+              items.options.B
+            }}</el-radio>
           </li>
           <li>
-            <input type="checkbox" /><span class="topic-list-key">C</span
-            >{{ items.options.C }}
+            <el-radio v-model="items.userneed" label="C">{{
+              items.options.C
+            }}</el-radio>
           </li>
           <li>
-            <input type="checkbox" /><span class="topic-list-key">D</span
-            >{{ items.options.D }}
+            <el-radio v-model="items.userneed" label="D">{{
+              items.options.D
+            }}</el-radio>
+          </li>
+        </ul>
+        <ul class="topic-list" v-if="items.type === 2">
+          <li>
+            <el-checkbox label="A">{{ items.options.A }}</el-checkbox>
+            <div class="topic-list-err">错误</div>
+            <div class="topic-list-correct">正确</div>
+          </li>
+          <li>
+            <el-checkbox label="B">{{ items.options.B }}</el-checkbox>
+          </li>
+          <li>
+            <el-checkbox label="C">{{ items.options.C }}</el-checkbox>
+          </li>
+          <li>
+            <el-checkbox label="D">{{ items.options.D }}</el-checkbox>
           </li>
         </ul>
       </div>
@@ -54,6 +76,7 @@ export default {
             D: "鄱阳湖",
             C: "长白山天池"
           },
+          userneed: "A",
           correct: "AB",
           analyze:
             "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
@@ -64,7 +87,7 @@ export default {
         },
         {
           id: 2,
-          type: 1,
+          type: 2,
           title: "新中国国内最大的咸水湖是以下哪个湖泊",
           options: {
             A: "青海湖asdfsadf",
@@ -72,6 +95,7 @@ export default {
             D: "鄱阳湖",
             C: "长白山天池"
           },
+          userneed: "",
           correct: "A",
           analyze:
             "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
@@ -90,6 +114,7 @@ export default {
             D: "鄱阳湖",
             C: "长白山天池"
           },
+          userneed: "",
           correct: "ABC",
           analyze:
             "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
@@ -151,14 +176,24 @@ export default {
     padding: 0.2rem;
     margin-top: 0.3rem;
     border-radius: 0.05rem;
-    .topic-list-key {
-      display: inline-block;
-      margin: 0 0.3rem;
+    .topic-list-err {
+      width: 1.5rem;
+      height: 0.8rem;
+      background-color: #fa6e53;
+      float: right;
+      border-radius: 0.1rem;
+      text-align: center;
+      color: #fff;
     }
-  }
-  input[type="checkbox"] {
-    width: 0.5rem;
-    height: 0.5rem;
+    .topic-list-correct {
+      width: 1.5rem;
+      height: 0.8rem;
+      background-color: #00be6f;
+      float: right;
+      border-radius: 0.1rem;
+      text-align: center;
+      color: #fff;
+    }
   }
 }
 </style>
