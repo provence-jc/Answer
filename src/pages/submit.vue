@@ -5,11 +5,11 @@
     </div>
     <div class="submit-input">
       <label class="submit-input-info">您的姓氏 </label><br />
-      <input type="text" class="input" /><br />
+      <input type="text" class="input" @change="lastnamechange" /><br />
       <label class="submit-input-info">您的名字 </label><br />
-      <input type="text" class="input" /><br />
+      <input type="text" class="input" @change="firstnamechange" /><br />
       <label class="submit-input-info">您的电话 </label><br />
-      <input type="tel" class="input" /><br />
+      <input type="tel" ref="tel" class="input" @change="telchange" /><br />
     </div>
     <!-- <p class="prompt">提交查看答案解析和排名</p> -->
     <div class="btn">
@@ -22,12 +22,43 @@
 <script>
 export default {
   name: "submit",
+  data() {
+    return {
+      lastname: 0,
+      firstname: 0,
+      tel: 0
+    };
+  },
   methods: {
     btnback() {
       this.$router.go(-1);
     },
     btnsubmit() {
+      const phonenum = this.$refs.tel.value;
+      console.log(/^1[34578]\d{9}$/.test(phonenum));
+
+      if (this.lastname === 0) {
+        this.$message("请填写姓氏");
+        return;
+      }
+      if (this.firstname === 0) {
+        this.$message("请填写名字");
+        return;
+      }
+      if (this.tel === 0 && !/^1[34578]\d{9}$/.test(phonenum)) {
+        this.$message("请填写正确的电话号码");
+        return;
+      }
       this.$router.push("/ranking");
+    },
+    lastnamechange() {
+      this.lastname = 1;
+    },
+    firstnamechange() {
+      this.firstname = 1;
+    },
+    telchange() {
+      this.tel = 1;
     }
   }
 };
