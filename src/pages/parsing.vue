@@ -13,54 +13,80 @@
             <el-radio v-model="items.userneed" label="A">{{
               items.options.A
             }}</el-radio>
-            <div v-if="items.correct=='A'" class="topic-list-correct">正确</div>
+            <div v-if="items.correct == 'A'" class="topic-list-correct">
+              正确
+            </div>
           </li>
           <li>
             <el-radio v-model="items.userneed" label="B">{{
               items.options.B
             }}</el-radio>
-            <div v-if="items.correct=='B'" class="topic-list-correct">正确</div>
+            <div v-if="items.correct == 'B'" class="topic-list-correct">
+              正确
+            </div>
           </li>
           <li>
             <el-radio v-model="items.userneed" label="C">{{
               items.options.C
             }}</el-radio>
-            <div v-if="items.correct=='C'" class="topic-list-correct">正确</div>
+            <div v-if="items.correct == 'C'" class="topic-list-correct">
+              正确
+            </div>
           </li>
           <li>
             <el-radio v-model="items.userneed" label="D">{{
               items.options.D
             }}</el-radio>
-            <div v-if="items.correct=='D'" class="topic-list-correct">正确</div>
+            <div v-if="items.correct == 'D'" class="topic-list-correct">
+              正确
+            </div>
           </li>
-          您的答案是：{{items.userneed}}
-          <div>
-            答案解析{{items.analyze}}
+          <div class="parsing">
+            <span class="useranswer">您的答案是：{{ items.userneed }}</span
+            ><br />
+            <span class="parsing-info">答案解析：</span><br /><span
+              class="parsing-text"
+              >{{ items.analyze }}</span
+            >
           </div>
-
         </ul>
         <ul class="topic-list" v-if="items.type === 2">
           <li>
             <el-checkbox label="A">{{ items.options.A }}</el-checkbox>
-            <div v-if="pk(items.correct,'A')" class="topic-list-correct">正确</div>
+            <div v-if="pk(items.correct, 'A')" class="topic-list-correct">
+              正确
+            </div>
           </li>
           <li>
             <el-checkbox label="B">{{ items.options.B }}</el-checkbox>
-            <div v-if="pk(items.correct,'B')" class="topic-list-correct">正确</div>
+            <div v-if="pk(items.correct, 'B')" class="topic-list-correct">
+              正确
+            </div>
           </li>
           <li>
             <el-checkbox label="C">{{ items.options.C }}</el-checkbox>
-            <div v-if="pk(items.correct,'C')" class="topic-list-correct">正确</div>
+            <div v-if="pk(items.correct, 'C')" class="topic-list-correct">
+              正确
+            </div>
           </li>
           <li>
             <el-checkbox label="D">{{ items.options.D }}</el-checkbox>
-            <div v-if="pk(items.correct,'D')" class="topic-list-correct">正确</div>
+            <div v-if="pk(items.correct, 'D')" class="topic-list-correct">
+              正确
+            </div>
           </li>
-          您的答案是：{{items.userneed}}
-          <div>
-            答案解析{{items.analyze}}
+          <div class="parsing">
+            <span class="useranswer">您的答案是：{{ items.userneed }}</span
+            ><br />
+            <span class="parsing-info">答案解析：</span><br /><span
+              class="parsing-text"
+              >{{ items.analyze }}</span
+            >
           </div>
         </ul>
+      </div>
+      <div class="btn">
+        <button class="subbtn" @click="btnclick">提交</button>
       </div>
     </div>
   </div>
@@ -68,8 +94,8 @@
 
 <script>
 export default {
-  name: 'parsing',
-  data () {
+  name: "parsing",
+  data() {
     return {
       time: 20, // 倒计时
       times: 0, // 答题计时
@@ -82,73 +108,76 @@ export default {
         {
           id: 1,
           type: 1,
-          title: '新中国国内最大的咸水湖是以下哪个湖泊---sad',
+          title: "新中国国内最大的咸水湖是以下哪个湖泊---sad",
           options: {
-            A: '青海湖asdfsadf',
-            B: '纳木错',
-            D: '鄱阳湖',
-            C: '长白山天池'
+            A: "青海湖asdfsadf",
+            B: "纳木错",
+            D: "鄱阳湖",
+            C: "长白山天池"
           },
-          userneed: 'A',
-          correct: 'A',
+          userneed: "A",
+          correct: "A",
           analyze:
-            '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
+            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
           score: 1,
           deleted_at: null,
-          created_at: '2020-06-22 14:48:16',
-          updated_at: '2020-06-22 10:04:28'
+          created_at: "2020-06-22 14:48:16",
+          updated_at: "2020-06-22 10:04:28"
         },
         {
           id: 2,
           type: 2,
-          title: '新中国国内最大的咸水湖是以下哪个湖泊',
+          title: "新中国国内最大的咸水湖是以下哪个湖泊",
           options: {
-            A: '青海湖asdfsadf',
-            B: '纳木错',
-            D: '鄱阳湖',
-            C: '长白山天池'
+            A: "青海湖asdfsadf",
+            B: "纳木错",
+            D: "鄱阳湖",
+            C: "长白山天池"
           },
-          userneed: 'A',
-          correct: 'AB',
+          userneed: "A",
+          correct: "AB",
           analyze:
-            '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
+            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
           score: 1,
           deleted_at: null,
-          created_at: '2020-06-22 14:48:16',
-          updated_at: '2020-06-22 10:04:28'
+          created_at: "2020-06-22 14:48:16",
+          updated_at: "2020-06-22 10:04:28"
         },
         {
           id: 3,
           type: 1,
-          title: '咸水湖是以下哪个湖泊',
+          title: "咸水湖是以下哪个湖泊",
           options: {
-            A: '青海湖asdfsadf',
-            B: '纳木错',
-            D: '鄱阳湖',
-            C: '长白山天池'
+            A: "青海湖asdfsadf",
+            B: "纳木错",
+            D: "鄱阳湖",
+            C: "长白山天池"
           },
-          userneed: '',
-          correct: 'ABC',
+          userneed: "",
+          correct: "ABC",
           analyze:
-            '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
+            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
           score: 1,
           deleted_at: null,
-          created_at: '2020-06-22 14:48:16',
-          updated_at: '2020-06-22 10:04:28'
+          created_at: "2020-06-22 14:48:16",
+          updated_at: "2020-06-22 10:04:28"
         }
       ]
-    }
+    };
   },
   methods: {
-    pk (val, K) {
+    pk(val, K) {
       if (val.indexOf(K) > -1) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
+    },
+    btnclick() {
+      this.$router.push("/submit");
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -216,6 +245,31 @@ export default {
       text-align: center;
       color: #fff;
     }
+  }
+  .parsing {
+    margin-top: 0.3rem;
+
+    .useranswer {
+      color: red;
+    }
+    .parsing-text {
+      font-size: 0.4rem;
+      color: #aeaeae;
+    }
+  }
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  .subbtn {
+    width: 6rem;
+    height: 1.2rem;
+    background-color: #6495ed;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.1rem;
+    font-size: 0.5rem;
   }
 }
 </style>

@@ -18,11 +18,6 @@ export default new Router({
       component: () => import("../pages/submit")
     },
     {
-      path: "/end",
-      name: "end",
-      component: () => import("../pages/end")
-    },
-    {
       path: "/parsing",
       name: "parsing",
       component: () => import("../pages/parsing")
