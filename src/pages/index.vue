@@ -1,31 +1,48 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      {{time}}---{{times}}
       <div class="header">
-        <p>答题剩余时间：{{time}}秒<span>用时:{{times}}秒</span></p>
+        <!-- <p>答题剩余时间：{{time}}秒<span>用时:{{times}}秒</span></p> -->
+        XX区答题活动
       </div>
       <div class="topic" v-for="(items,index) of test" :key="index">
         <p class="topic-text" v-if="current===items.id">{{items.id}}.{{items.title}}</p>
-        <ul class="topic-list" v-if="current===items.id" :scoreData="score">
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="A">{{items.options.A}}</el-radio></li>
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="B">{{items.options.B}}</el-radio></li>
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="C">{{items.options.C}}</el-radio></li>
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="D">{{items.options.D}}</el-radio></li>
-          <!-- <el-button type="primary">主要按钮</el-button> -->
-          <!-- <li><el-radio v-model="radio" label="A">{{items.options.A}}</el-radio></li>
-          <li><el-radio v-model="radio" label="B">{{items.options.B}}</el-radio></li>
-          <li><el-radio v-model="radio" label="C">{{items.options.C}}</el-radio></li>
-          <li><el-radio v-model="radio" label="D">{{items.options.D}}</el-radio></li> -->
-          <!-- <li><input type="checkbox"><span class="topic-list-key">A</span>{{items.options.A}}</li>
-          <li><input type="checkbox"><span class="topic-list-key">B</span>{{items.options.B}}</li>
-          <li><input type="checkbox"><span class="topic-list-key">C</span>{{items.options.C}}</li>
-          <li><input type="checkbox"><span class="topic-list-key">D</span>{{items.options.D}}</li> -->
+        <ul class="topic-list" v-if="current===items.id&&items.type===1" :scoreData="score">
+          <li><el-radio @change='answerChange' v-model="items.userneed" label="A">A {{items.options.A}}</el-radio></li>
+          <li><el-radio @change='answerChange' v-model="items.userneed" label="B">B {{items.options.B}}</el-radio></li>
+          <li><el-radio @change='answerChange' v-model="items.userneed" label="C">C {{items.options.C}}</el-radio></li>
+          <li><el-radio @change='answerChange' v-model="items.userneed" label="D">D {{items.options.D}}</el-radio></li>
+        </ul>
+        <ul class="topic-list" v-if="current===items.id&&items.type===2" :scoreData="score">
+          <el-checkbox-group v-model="items.userneed" @change='answerChange'>
+            <el-checkbox label="A">A {{items.options.A}}</el-checkbox>
+            <br>
+            <el-checkbox label="B">B {{items.options.B}}</el-checkbox>
+             <br>
+            <el-checkbox label="C">C {{items.options.C}}</el-checkbox>
+             <br>
+            <el-checkbox label="D">D {{items.options.D}}</el-checkbox>
+          </el-checkbox-group>
+        </ul>
+        <ul class="topic-list" v-if="current===items.id&&items.type===3" :scoreData="score">
+           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="A">A <img class="images" :src="items.options.A" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="B">B <img class="images" :src="items.options.B" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="C">C <img class="images" :src="items.options.C" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="D">D <img class="images" :src="items.options.D" alt=""></el-radio></li>
+          <!-- <el-checkbox-group v-model="items.userneed" @change='answerChange'>
+            <el-checkbox class="imagewrap" label="A">A <img class="images" :src="items.options.A" alt=""></el-checkbox>
+            <br>
+            <el-checkbox class="imagewrap" label="B">B <img class="images"  :src="items.options.B" alt=""></el-checkbox>
+             <br>
+            <el-checkbox class="imagewrap" label="C">C <img class="images"  :src="items.options.C" alt=""></el-checkbox>
+             <br>
+            <el-checkbox class="imagewrap" label="D">D <img class="images"  :src="items.options.D" alt=""></el-checkbox>
+          </el-checkbox-group> -->
         </ul>
       </div>
       <div class="clear"></div>
       <div class="btn">
-        <button class="submit" @click="submitBtn">下一题</button></div>
+        <button class="submit" @click="submitBtn">{{button==1?'下一题':'提交'}}</button></div>
       </div>
     </div>
 </template>
@@ -39,108 +56,106 @@ export default {
       times: 0, // 答题计时
       score: 0,
       answer: 0,
-      // title:'',
+      button: 1,
       // optines: {},
       // correct:''
       current: 1,
-      t: 20,
-      t1: 0,
       test: [{
         'id': 1,
         'type': 1,
-        'title': '新中国国内最大的咸水湖是以下哪个湖泊---sad',
+        'title': '以下哪位明代人物不是军人--test',
         'options': {
-          'A': '青海湖asdfsadf',
-          'B': '纳木错',
-          'D': '鄱阳湖',
-          'C': '长白山天池'
+          'A': 'aa',
+          'B': 'a',
+          'C': 'a',
+          'D': 'a'
         },
-        userneed: '',
-        'correct': 'AB',
-        'analyze': '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
-        'score': 1,
+        'correct': 'C',
+        'analyze': '抗倭名将戚继光，袁崇焕和吴三桂都是崇祯年间镇守山海关边防的将领，魏忠贤是宦官。',
+        'score': 3,
         'deleted_at': null,
-        'created_at': '2020-06-22 14:48:16',
-        'updated_at': '2020-06-22 10:04:28'
-      }, {
+        'created_at': '2020-06-23 02:44:00',
+        'updated_at': '2020-06-23 07:16:40',
+        'userneed': []
+      },
+      {
         'id': 2,
-        'type': 1,
-        'title': '新中国国内最大的咸水湖是以下哪个湖泊',
+        'type': 2,
+        'title': '地球最高峰是一下哪座山峰',
         'options': {
-          'A': '青海湖asdfsadf',
-          'B': '纳木错',
-          'D': '鄱阳湖',
-          'C': '长白山天池'
+          'A': '乔戈里峰',
+          'B': '埃文森峰',
+          'C': '珠穆朗玛峰',
+          'D': '奥林匹斯峰'
         },
-        userneed: '',
-        'correct': 'A',
-        'analyze': '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
-        'score': 1,
+        'correct': 'BC',
+        'analyze': '乔戈里峰是我国另一座海拔八千米以上的高峰，奥林匹斯峰是火星最高峰',
+        'score': 2,
         'deleted_at': null,
         'created_at': '2020-06-22 14:48:16',
-        'updated_at': '2020-06-22 10:04:28'
-      }, {
+        'updated_at': '2020-06-22 08:01:53',
+        'userneed': []
+      },
+      {
         'id': 3,
-        'type': 1,
-        'title': '咸水湖是以下哪个湖泊',
+        'type': 3,
+        'title': '下面哪个是一幅地图',
         'options': {
-          'A': '青海湖asdfsadf',
-          'B': '纳木错',
-          'D': '鄱阳湖',
-          'C': '长白山天池'
+          'A': 'http://d.ifengimg.com/w50_h58_q70/x0.ifengimg.com/ucms/2020_21/F319365A850BF48FF65A59D0155C2CE3FBEC1C63_w50_h58.jpg',
+          'B': 'http://d.ifengimg.com/w50_h58_q70/x0.ifengimg.com/ucms/2020_20/3DB17BDF1D4B7C8BF7BEE0E0642D025812B04446_w50_h58.png',
+          'C': 'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1879585545,51626802&fm=26&gp=0.jpg',
+          'D': 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSo_-9LBmFHv_-QK-nLv5pK-j9C-96yLUkPqyI9XTX6TLeFGpF_&usqp=CAU'
         },
-        userneed: '',
-        'correct': 'ABC',
-        'analyze': '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
-        'score': 1,
+        'correct': 'B',
+        'analyze': '其余的图是佛像',
+        'score': 5,
         'deleted_at': null,
         'created_at': '2020-06-22 14:48:16',
-        'updated_at': '2020-06-22 10:04:28'
+        'updated_at': '2020-06-23 03:40:14',
+        'userneed': []
       }]
     }
   },
   created () {
-    this.Countdown()
-    this.timer()
+    // 获取数据
+    // var s = setInterval(() => {
+    //   this.times++
+    // }, 1000);
   },
   methods: {
-    Countdown () {
-      clearInterval(timecount)
-      var timecount = setInterval(() => {
-        this.t--
-        this.time = this.t
-        if (this.t < 1) {
-          clearInterval(timecount)
-        }
-      }, 1000)
-    },
-    timer () {
-      clearInterval(timecount)
-      var timecount = setInterval(() => {
-        this.t1++
-        this.times = this.t1
-        if (this.t1 >= 20) {
-          clearInterval(timecount)
-        }
-      }, 1000)
-    },
-    answerChange () {
+    answerChange (value) {
       this.answer = 1
     },
     submitBtn () {
+      if (this.button == 0) {
+        // 提交操作
+        // this.times  总时间
+      }
+
       if (this.answer == 0) {
         this.$message('请选择答案')
         return
       }
+
+      this.answer = 0
+      if (this.test[this.current - 1].type == 2) {
+        if (this.test[this.current - 1].correct == this.test[this.current - 1].userneed.sort().join('')) {
+          this.score += this.test[this.current - 1].score
+        }
+      } else {
+        if (this.test[this.current - 1].correct == this.test[this.current - 1].userneed) {
+          this.score += this.test[this.current - 1].score
+        }
+      }
+
       this.current++
-      this.t = 20
-      this.t1 = 0
-      this.Countdown()
-      this.timer()
       if (this.current > this.test.length) {
         this.$router.push('/parsing')
       }
-      this.answer = 0
+      if (this.current + 1 == this.test.length) {
+        this.button = 0
+      }
+
       // 未解决 刷新倒计时
       // let input = document.querySelectorAll('input')
       // let a = document.getElementsByClassName('topic-list-key')
@@ -171,6 +186,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.images{
+  width: 80%;
+  height: 150px;
+}
+.imagewrap{
+  width: 90%;
+}
   .header {
     width: 100%;
     height: 1rem;
