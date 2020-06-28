@@ -45,7 +45,8 @@ export default {
     return {
       time: 20, // 倒计时
       times: 0, // 答题计时
-      score: 0,
+      score: 0, // 总分
+      value: 0,
       answer: 0,
       button: 1,
       // optines: {},
@@ -112,6 +113,7 @@ export default {
     // var s = setInterval(() => {
     //   this.times++
     // }, 1000);
+    this.mounted()
     this.$axios({
       method: 'get',
       url: 'http://oea.test:8080/send',
@@ -123,37 +125,49 @@ export default {
     })
   },
   methods: {
+    get () {
+      this.times++
+      console.log(this.times)
+    },
+    mounted () {
+      this.timer = setInterval(this.get, 1000)
+    },
+    beforeDestroy () {
+      clearInterval(this.timer)
+    },
     answerChange (value) {
       this.answer = 1
     },
     submitBtn () {
       if (this.button == 0) {
         // 提交操作
-        // this.times  总时间
-      }
-
-      if (this.answer == 0) {
-        this.$message('请选择答案')
-        return
-      }
-
-      this.answer = 0
-      if (this.test[this.current - 1].type == 2) {
-        if (this.test[this.current - 1].correct == this.test[this.current - 1].userneed.sort().join('')) {
-          this.score += this.test[this.current - 1].score
-        }
+        console.log('shijiantingzhi')
+        this.beforeDestroy()
+        console.log(this.times)
       } else {
-        if (this.test[this.current - 1].correct == this.test[this.current - 1].userneed) {
-          this.score += this.test[this.current - 1].score
+        if (this.answer == 0) {
+          this.$message('请选择答案')
+          return
         }
-      }
 
-      this.current++
-      if (this.current > this.test.length) {
-        this.$router.push('/parsing')
-      }
-      if (this.current + 1 == this.test.length) {
-        this.button = 0
+        this.answer = 0
+        if (this.test[this.current - 1].type == 2) {
+          if (this.test[this.current - 1].correct == this.test[this.current - 1].userneed.sort().join('')) {
+            this.score += this.test[this.current - 1].score
+          }
+        } else {
+          if (this.test[this.current - 1].correct == this.test[this.current - 1].userneed) {
+            this.score += this.test[this.current - 1].score
+          }
+        }
+
+        this.current++
+        if (this.current > this.test.length) {
+          this.$router.push('/parsing')
+        }
+        if (this.current == this.test.length) {
+          this.button = 0
+        }
       }
 
       // 未解决 刷新倒计时
