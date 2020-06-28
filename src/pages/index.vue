@@ -8,27 +8,27 @@
       <div class="topic" v-for="(items,index) of test" :key="index">
         <p class="topic-text" v-if="current===items.id">{{items.id}}.{{items.title}}</p>
         <ul class="topic-list" v-if="current===items.id&&items.type===1" :scoreData="score">
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="A">A {{items.options.A}}</el-radio></li>
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="B">B {{items.options.B}}</el-radio></li>
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="C">C {{items.options.C}}</el-radio></li>
-          <li><el-radio @change='answerChange' v-model="items.userneed" label="D">D {{items.options.D}}</el-radio></li>
+          <li><el-radio border @change='answerChange' v-model="items.userneed" label="A">A {{items.options.A}}</el-radio></li>
+          <li><el-radio border @change='answerChange' v-model="items.userneed" label="B">B {{items.options.B}}</el-radio></li>
+          <li><el-radio border @change='answerChange' v-model="items.userneed" label="C">C {{items.options.C}}</el-radio></li>
+          <li><el-radio border @change='answerChange' v-model="items.userneed" label="D">D {{items.options.D}}</el-radio></li>
         </ul>
         <ul class="topic-list" v-if="current===items.id&&items.type===2" :scoreData="score">
           <el-checkbox-group v-model="items.userneed" @change='answerChange'>
-            <el-checkbox label="A">A {{items.options.A}}</el-checkbox>
+            <el-checkbox border label="A">A {{items.options.A}}</el-checkbox>
             <br>
-            <el-checkbox label="B">B {{items.options.B}}</el-checkbox>
+            <el-checkbox border label="B">B {{items.options.B}}</el-checkbox>
              <br>
-            <el-checkbox label="C">C {{items.options.C}}</el-checkbox>
+            <el-checkbox border label="C">C {{items.options.C}}</el-checkbox>
              <br>
-            <el-checkbox label="D">D {{items.options.D}}</el-checkbox>
+            <el-checkbox border label="D">D {{items.options.D}}</el-checkbox>
           </el-checkbox-group>
         </ul>
         <ul class="topic-list" v-if="current===items.id&&items.type===3" :scoreData="score">
-           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="A">A <img class="images" :src="items.options.A" alt=""></el-radio></li>
-           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="B">B <img class="images" :src="items.options.B" alt=""></el-radio></li>
-           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="C">C <img class="images" :src="items.options.C" alt=""></el-radio></li>
-           <li  class="imagewrap"><el-radio @change='answerChange' v-model="items.userneed" label="D">D <img class="images" :src="items.options.D" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio border @change='answerChange' v-model="items.userneed" label="A">A <img class="images" :src="items.options.A" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio border @change='answerChange' v-model="items.userneed" label="B">B <img class="images" :src="items.options.B" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio border @change='answerChange' v-model="items.userneed" label="C">C <img class="images" :src="items.options.C" alt=""></el-radio></li>
+           <li  class="imagewrap"><el-radio border @change='answerChange' v-model="items.userneed" label="D">D <img class="images" :src="items.options.D" alt=""></el-radio></li>
         </ul>
       </div>
       <div class="clear"></div>
@@ -200,60 +200,70 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.images{
+.wrapper {
+  padding-bottom: 1rem;
+}
+.images {
   width: 80%;
   height: 150px;
 }
-.imagewrap{
+.imagewrap {
   width: 90%;
 }
-  .header {
-    width: 100%;
-    height: 1rem;
-    background-color: #6495ED;
-    color: #fff;
-    font-size: .5rem;
-    line-height: 1rem;
-    text-align: center;
+.header {
+  width: 100%;
+  height: 1rem;
+  background-color: #6495ed;
+  color: #fff;
+  font-size: 0.5rem;
+  line-height: 1rem;
+  text-align: center;
+}
+.topic {
+  margin-top: 0.3rem;
+  padding: 0 0.5rem;
+  .topic-text {
+    font-size: 0.6rem;
   }
-  .topic{
-    margin-top: 0.3rem;
-    padding: 0 .5rem;
-    .topic-text{
-      font-size: 0.6rem;
+}
+.topic-list {
+  margin-top: 0.3rem;
+  font-size: 0.5rem;
+  line-height: 0.8rem;
+  li {
+    list-style: none;
+    // border: 0.03rem solid #ededed;
+    // border-radius: 0.1rem;
+    // padding: 0.2rem;
+    // margin: 0.5rem 0;
+    .el-radio,
+    .el-checkbox {
+      width: 100%;
+      height: auto;
+      padding: 0.4rem;
+      margin: 0.2rem 0;
     }
   }
-  .topic-list{
-    margin-top: 0.3rem;
-    font-size: 0.5rem;
-    line-height: .8rem;
-    li{
-      list-style: none;
-      .topic-list-key{
-        display: inline-block;
-        margin: 0 .3rem;
-      }
-    }
-    input[type="checkbox"]{
-      width: .5rem;
-      height: .5rem;
-    }
+  input[type="checkbox"] {
+    width: 0.5rem;
+    height: 0.5rem;
   }
-  .clear{
-    clear: both;
-  }
-  .btn{
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-  }
-  .submit{
-    width: 6rem;
-    height: 1.2rem;
-    background-color: #6495ED;
-    color: #ffffff;
-    border: none;
-    border-radius: 0.1rem;
-    font-size: 0.5rem;
-  }
+}
+.clear {
+  clear: both;
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.submit {
+  width: 6rem;
+  height: 1.2rem;
+  background-color: #6495ed;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 0.5rem;
+}
 </style>
