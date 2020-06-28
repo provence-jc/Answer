@@ -257,7 +257,8 @@ export default {
   border-radius: 0.1rem;
   // padding-bottom: 0.5rem;
   .userranktitle {
-    height: 2.2rem;
+    width: 100%;
+    height: 2.4rem;
     background: url("../../assets/userrank.png") no-repeat;
     background-size: 100% auto;
     text-align: center;
@@ -265,7 +266,8 @@ export default {
     font-size: 0.9rem;
   }
   .ranktitle {
-    height: 2.3rem;
+    width: 100%;
+    height: 2.5rem;
     background: url("../../assets/rank.png") no-repeat center;
     background-size: 70% auto;
     text-align: center;
@@ -308,7 +310,7 @@ export default {
       margin-left: 0.5rem;
     }
     .rank-info {
-      width: 3rem;
+      width: 4rem;
       height: 1.5rem;
       display: flex;
       flex-direction: column;
