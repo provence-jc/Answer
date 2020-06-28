@@ -8,35 +8,39 @@
       <div class="topic" v-for="(items, index) of test" :key="index">
         <p class="topic-top">第{{ items.id }}题</p>
         <p class="topic-text">{{ items.title }}</p>
-        <ul class="topic-list" v-if="items.type === 1">
+        <ul class="topic-list" v-if="items.type === 1 || items.type === 3">
           <li>
-            <el-radio v-model="items.userneed" label="A">{{
-              items.options.A
-            }}</el-radio>
+            <!-- <el-radio v-model="items.userneed" label="A">{{
+
+            }}</el-radio> -->
+            <span>A&nbsp;&nbsp;{{ items.options.A }}</span>
             <div v-if="items.correct == 'A'" class="topic-list-correct">
               正确
             </div>
           </li>
           <li>
-            <el-radio v-model="items.userneed" label="B">{{
+            <!-- <el-radio v-model="items.userneed" label="B">{{
               items.options.B
-            }}</el-radio>
+            }}</el-radio> -->
+            <span>B&nbsp;&nbsp;{{ items.options.B }}</span>
             <div v-if="items.correct == 'B'" class="topic-list-correct">
               正确
             </div>
           </li>
           <li>
-            <el-radio v-model="items.userneed" label="C">{{
+            <!-- <el-radio v-model="items.userneed" label="C">{{
               items.options.C
-            }}</el-radio>
+            }}</el-radio> -->
+            <span>C&nbsp;&nbsp;{{ items.options.C }}</span>
             <div v-if="items.correct == 'C'" class="topic-list-correct">
               正确
             </div>
           </li>
           <li>
-            <el-radio v-model="items.userneed" label="D">{{
+            <!-- <el-radio v-model="items.userneed" label="D">{{
               items.options.D
-            }}</el-radio>
+            }}</el-radio> -->
+            <span>D&nbsp;&nbsp;{{ items.options.D }}</span>
             <div v-if="items.correct == 'D'" class="topic-list-correct">
               正确
             </div>
@@ -52,25 +56,29 @@
         </ul>
         <ul class="topic-list" v-if="items.type === 2">
           <li>
-            <el-checkbox label="A">{{ items.options.A }}</el-checkbox>
+            <!-- <el-checkbox label="A">{{ items.options.A }}</el-checkbox> -->
+            <span>A&nbsp;&nbsp;{{ items.options.A }}</span>
             <div v-if="pk(items.correct, 'A')" class="topic-list-correct">
               正确
             </div>
           </li>
           <li>
-            <el-checkbox label="B">{{ items.options.B }}</el-checkbox>
+            <!-- <el-checkbox label="B">{{ items.options.B }}</el-checkbox> -->
+            <span>B&nbsp;&nbsp;{{ items.options.B }}</span>
             <div v-if="pk(items.correct, 'B')" class="topic-list-correct">
               正确
             </div>
           </li>
           <li>
-            <el-checkbox label="C">{{ items.options.C }}</el-checkbox>
+            <!-- <el-checkbox label="C">{{ items.options.C }}</el-checkbox> -->
+            <span>C&nbsp;&nbsp;{{ items.options.C }}</span>
             <div v-if="pk(items.correct, 'C')" class="topic-list-correct">
               正确
             </div>
           </li>
           <li>
-            <el-checkbox label="D">{{ items.options.D }}</el-checkbox>
+            <!-- <el-checkbox label="D">{{ items.options.D }}</el-checkbox> -->
+            <span>D&nbsp;&nbsp;{{ items.options.D }}</span>
             <div v-if="pk(items.correct, 'D')" class="topic-list-correct">
               正确
             </div>
@@ -145,7 +153,7 @@ export default {
         },
         {
           id: 3,
-          type: 1,
+          type: 3,
           title: "咸水湖是以下哪个湖泊",
           options: {
             A: "青海湖asdfsadf",
@@ -153,7 +161,7 @@ export default {
             D: "鄱阳湖",
             C: "长白山天池"
           },
-          userneed: "",
+          userneed: "BCD",
           correct: "ABC",
           analyze:
             "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
@@ -227,6 +235,8 @@ export default {
     padding: 0.2rem;
     margin-top: 0.3rem;
     border-radius: 0.05rem;
+    color: #606266;
+    font-size: 0.4rem;
     .topic-list-err {
       width: 1.5rem;
       height: 0.8rem;
