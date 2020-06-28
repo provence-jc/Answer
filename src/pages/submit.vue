@@ -31,47 +31,76 @@
 
 <script>
 export default {
-  name: "submit",
-  data() {
+  name: 'submit',
+  data () {
     return {
       lastname: 0,
       firstname: 0,
-      tel: 0
-    };
+      tel: 0,
+      times: null,
+      datas: null,
+      score: null,
+      id: ''
+    }
+  },
+  created () {
+    this.datas = JSON.parse(sessionStorage.getItem('datas'))
+    this.times = sessionStorage.getItem('times')
+    this.score = sessionStorage.getItem('score')
+    this.id = sessionStorage.getItem('id')
   },
   methods: {
-    btnback() {
-      this.$router.go(-1);
+    btnback () {
+      this.$router.go(-1)
     },
-    btnsubmit() {
-      const lnamereg = this.$refs.lname.value;
-      const fnamereg = this.$refs.fname.value;
-      const phonenum = this.$refs.tel.value;
+    btnsubmit () {
+      const lnamereg = this.$refs.lname.value
+      const fnamereg = this.$refs.fname.value
+      const phonenum = this.$refs.tel.value
       if (!/^[\u4E00-\u9FA5]{1,2}$/.test(lnamereg) || this.lastname === 0) {
-        this.$message("请填写正确的姓氏");
-        return;
+        this.$message('请填写正确的姓氏')
+        return
       }
       if (!/^[\u4E00-\u9FA5]{1,2}$/.test(fnamereg) || this.firstname === 0) {
-        this.$message("请填写正确的名字");
-        return;
+        this.$message('请填写正确的名字')
+        return
       }
       if (!/^1[34578]\d{9}$/.test(phonenum) || this.firstname === 0) {
-        this.$message("请填写正确的电话号码");
-        return;
+        this.$message('请填写正确的电话号码')
+        return
       }
-      this.$router.push("/ranking");
+
+      // 请求
+      let data = {}
+      let roll = {}
+      for (let i = 0; i < this.datas.length; i++) {
+        var index = i + 1
+        roll[index] = this.datas[i].userneed
+      }
+      data.roll = roll
+      data.seconds = this.times
+      data.score = this.score
+      data.phone = this.tel
+      data.gender = this.gender
+      data.lastname = this.lastname
+      data.firstname = this.firstname
+      data.activity = this.activity
+
+      console.log(roll)
+
+      this.$router.push('/ranking')
     },
-    lastnamechange() {
-      this.lastname = 1;
+    lastnamechange () {
+      this.lastname = 1
     },
-    firstnamechange() {
-      this.firstname = 1;
+    firstnamechange () {
+      this.firstname = 1
     },
-    telchange() {
-      this.tel = 1;
+    telchange () {
+      this.tel = 1
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

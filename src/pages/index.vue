@@ -120,6 +120,7 @@ export default {
       data: ''
     }).then((response) => { // 这里使用了ES6的语法
       console.log(response) // 请求成功返回的数据
+      // sessionStorage.setItem('id', response.activity)
     }).catch((error) => {
       console.log(error) // 请求失败返回的数据
     })
@@ -127,7 +128,6 @@ export default {
   methods: {
     get () {
       this.times++
-      console.log(this.times)
     },
     mounted () {
       this.timer = setInterval(this.get, 1000)
@@ -141,9 +141,14 @@ export default {
     submitBtn () {
       if (this.button == 0) {
         // 提交操作
-        console.log('shijiantingzhi')
         this.beforeDestroy()
-        console.log(this.times)
+
+        if (this.current >= this.test.length) {
+          sessionStorage.setItem('score', this.score)
+          sessionStorage.setItem('times', this.times)
+          sessionStorage.setItem('datas', JSON.stringify(this.test))
+          this.$router.push('/parsing')
+        }
       } else {
         if (this.answer == 0) {
           this.$message('请选择答案')
@@ -162,9 +167,6 @@ export default {
         }
 
         this.current++
-        if (this.current > this.test.length) {
-          this.$router.push('/parsing')
-        }
         if (this.current == this.test.length) {
           this.button = 0
         }
