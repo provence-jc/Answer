@@ -102,12 +102,14 @@
 
 <script>
 export default {
-  name: 'parsing',
-  data () {
+  name: "parsing",
+  data() {
     return {
       time: 20, // 倒计时
       times: 0, // 答题计时
       score: 0,
+      datas: null,
+      // userneed: null,
       // title:'',
       // optines: {},
       // correct:''
@@ -116,76 +118,76 @@ export default {
         {
           id: 1,
           type: 1,
-          title: '新中国国内最大的咸水湖是以下哪个湖泊---sad',
+          title: "新中国国内最大的咸水湖是以下哪个湖泊---sad",
           options: {
-            A: '青海湖asdfsadf',
-            B: '纳木错',
-            D: '鄱阳湖',
-            C: '长白山天池'
+            A: "青海湖asdfsadf",
+            B: "纳木错",
+            D: "鄱阳湖",
+            C: "长白山天池"
           },
-          userneed: 'A',
-          correct: 'A',
+          userneed: "A",
+          correct: "A",
           analyze:
-            '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
+            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
           score: 1,
           deleted_at: null,
-          created_at: '2020-06-22 14:48:16',
-          updated_at: '2020-06-22 10:04:28'
+          created_at: "2020-06-22 14:48:16",
+          updated_at: "2020-06-22 10:04:28"
         },
         {
           id: 2,
           type: 2,
-          title: '新中国国内最大的咸水湖是以下哪个湖泊',
+          title: "新中国国内最大的咸水湖是以下哪个湖泊",
           options: {
-            A: '青海湖asdfsadf',
-            B: '纳木错',
-            D: '鄱阳湖',
-            C: '长白山天池'
+            A: "青海湖asdfsadf",
+            B: "纳木错",
+            D: "鄱阳湖",
+            C: "长白山天池"
           },
-          userneed: 'A',
-          correct: 'AB',
+          userneed: "A",
+          correct: "AB",
           analyze:
-            '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
+            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
           score: 1,
           deleted_at: null,
-          created_at: '2020-06-22 14:48:16',
-          updated_at: '2020-06-22 10:04:28'
+          created_at: "2020-06-22 14:48:16",
+          updated_at: "2020-06-22 10:04:28"
         },
         {
           id: 3,
           type: 3,
-          title: '咸水湖是以下哪个湖泊',
+          title: "咸水湖是以下哪个湖泊",
           options: {
-            A: '青海湖asdfsadf',
-            B: '纳木错',
-            D: '鄱阳湖',
-            C: '长白山天池'
+            A: "青海湖asdfsadf",
+            B: "纳木错",
+            D: "鄱阳湖",
+            C: "长白山天池"
           },
-          userneed: 'BCD',
-          correct: 'ABC',
+          userneed: "BCD",
+          correct: "ABC",
           analyze:
-            '纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。',
+            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
           score: 1,
           deleted_at: null,
-          created_at: '2020-06-22 14:48:16',
-          updated_at: '2020-06-22 10:04:28'
+          created_at: "2020-06-22 14:48:16",
+          updated_at: "2020-06-22 10:04:28"
         }
       ]
-    }
+    };
   },
   methods: {
-    pk (val, K) {
+    pk(val, K) {
       if (val.indexOf(K) > -1) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     },
-    btnclick () {
-      this.$router.push('/submit')
+    btnclick() {
+      this.$router.push("/submit");
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

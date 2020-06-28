@@ -9,6 +9,7 @@
         type="text"
         ref="lname"
         class="input"
+        v-model="lname"
         @change="lastnamechange"
       /><br />
       <label class="submit-input-info">您的名字 </label><br />
@@ -16,10 +17,20 @@
         type="text"
         ref="fname"
         class="input"
+        v-model="fname"
         @change="firstnamechange"
       /><br />
+      <label class="submit-input-info">您的性别 </label><br />
+      <el-radio v-model="gender" label="1" border default>男</el-radio>
+      <el-radio v-model="gender" label="2" border>女</el-radio><br />
       <label class="submit-input-info">您的电话 </label><br />
-      <input type="tel" ref="tel" class="input" @change="telchange" /><br />
+      <input
+        type="tel"
+        ref="tel"
+        class="input"
+        v-model="tel"
+        @change="telchange"
+      /><br />
     </div>
     <!-- <p class="prompt">提交查看答案解析和排名</p> -->
     <div class="btn">
@@ -31,76 +42,86 @@
 
 <script>
 export default {
-  name: 'submit',
-  data () {
+  name: "submit",
+  data() {
     return {
-      lastname: 0,
-      firstname: 0,
-      tel: 0,
+      lname: null,
+      fname: null,
+      tel: null,
+      lastnameval: 0,
+      firstnameval: 0,
+      telval: 0,
       times: null,
       datas: null,
       score: null,
-      id: ''
-    }
+      id: "",
+      gender: "1"
+    };
   },
-  created () {
-    this.datas = JSON.parse(sessionStorage.getItem('datas'))
-    this.times = sessionStorage.getItem('times')
-    this.score = sessionStorage.getItem('score')
-    this.id = sessionStorage.getItem('id')
+  created() {
+    this.datas = JSON.parse(sessionStorage.getItem("datas"));
+    this.times = sessionStorage.getItem("times");
+    this.score = sessionStorage.getItem("score");
+    this.id = sessionStorage.getItem("id");
   },
   methods: {
-    btnback () {
-      this.$router.go(-1)
+    btnback() {
+      this.$router.go(-1);
     },
-    btnsubmit () {
-      const lnamereg = this.$refs.lname.value
-      const fnamereg = this.$refs.fname.value
-      const phonenum = this.$refs.tel.value
-      if (!/^[\u4E00-\u9FA5]{1,2}$/.test(lnamereg) || this.lastname === 0) {
-        this.$message('请填写正确的姓氏')
-        return
+    btnsubmit() {
+      console.log(this.lname);
+      console.log(this.fname);
+      const lnamereg = this.$refs.lname.value;
+      const fnamereg = this.$refs.fname.value;
+      const phonenum = this.$refs.tel.value;
+      if (!/^[\u4E00-\u9FA5]{1,2}$/.test(lnamereg) || this.lastnameval === 0) {
+        this.$message("请填写正确的姓氏");
+        return;
       }
-      if (!/^[\u4E00-\u9FA5]{1,2}$/.test(fnamereg) || this.firstname === 0) {
-        this.$message('请填写正确的名字')
-        return
+      if (!/^[\u4E00-\u9FA5]{1,2}$/.test(fnamereg) || this.firstnameval === 0) {
+        this.$message("请填写正确的名字");
+        return;
       }
-      if (!/^1[34578]\d{9}$/.test(phonenum) || this.firstname === 0) {
-        this.$message('请填写正确的电话号码')
-        return
+      if (!/^1[34578]\d{9}$/.test(phonenum) || this.telval === 0) {
+        this.$message("请填写正确的电话号码");
+        return;
       }
 
       // 请求
-      let data = {}
-      let roll = {}
+      let data = {};
+      let roll = {};
       for (let i = 0; i < this.datas.length; i++) {
-        var index = i + 1
-        roll[index] = this.datas[i].userneed
+        var index = i + 1;
+        roll[index] = this.datas[i].userneed;
       }
-      data.roll = roll
-      data.seconds = this.times
-      data.score = this.score
-      data.phone = this.tel
-      data.gender = this.gender
-      data.lastname = this.lastname
-      data.firstname = this.firstname
-      data.activity = this.activity
+      data.roll = roll;
+      data.seconds = this.times;
+      data.score = this.score;
+      data.phone = this.tel;
+      data.gender = this.gender;
+      data.lastname = this.lname;
+      data.firstname = this.fname;
+      data.activity = this.activity;
+      sessionStorage.setItem("lname", this.lname);
+      sessionStorage.setItem("fname", this.fname);
+      sessionStorage.setItem("tel", this.tel);
+      console.log(data);
 
-      console.log(roll)
+      console.log(roll);
 
-      this.$router.push('/ranking')
+      this.$router.push("/ranking");
     },
-    lastnamechange () {
-      this.lastname = 1
+    lastnamechange() {
+      this.lastnameval = 1;
     },
-    firstnamechange () {
-      this.firstname = 1
+    firstnamechange() {
+      this.firstnameval = 1;
     },
-    telchange () {
-      this.tel = 1
+    telchange() {
+      this.telval = 1;
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

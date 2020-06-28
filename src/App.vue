@@ -6,7 +6,11 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  created() {
+    var html = document.querySelector("html");
+    html.style.fontSize = document.documentElement.clientWidth / 10 + "px";
+  }
 };
 </script>
 
@@ -14,8 +18,5 @@ export default {
 * {
   padding: 0;
   margin: 0;
-}
-html {
-  font-size: 37.5px;
 }
 </style>

@@ -8,14 +8,14 @@
       <div class="userranktitle">您当前的排名</div>
       <div class="ranking">
         <span class="rank-num"
-          >{{ ranksort }}<span class="rank-name">张先生</span
+          >{{ ranksort }}<span class="rank-name">{{ lname }}先生</span
           ><span class="rank-tel">
-            131****1234
+            {{ tel }}
           </span></span
         >
         <div class="rank-info">
-          <p class="rank-score">50分</p>
-          <p class="rank-time">总用时：222秒</p>
+          <p class="rank-score">{{ score }}分</p>
+          <p class="rank-time">总用时：{{ times }}秒</p>
         </div>
       </div>
       <div class="ranktitle">排行榜</div>
@@ -42,6 +42,10 @@ export default {
   name: "parsing",
   data() {
     return {
+      lanme: null,
+      tel: null,
+      times: null,
+      score: null,
       ranksort: 0,
       test: {
         code: 200,
@@ -238,6 +242,13 @@ export default {
         }
       }
     };
+  },
+  created() {
+    this.lname = sessionStorage.getItem("lname");
+    this.tel = sessionStorage.getItem("tel");
+    this.times = sessionStorage.getItem("times");
+    this.score = sessionStorage.getItem("score");
+    this.ranksort = this.test.data.sort;
   }
 };
 </script>
@@ -245,7 +256,7 @@ export default {
 <style scoped lang="scss">
 .container {
   padding: 0.5rem;
-  background-color: #5490fe;
+  background-color: #409eff;
   .title p {
     font-size: 0.5rem;
     color: #fff;
@@ -257,16 +268,16 @@ export default {
   border-radius: 0.1rem;
   // padding-bottom: 0.5rem;
   .userranktitle {
-    width: 100%;
-    height: 2.4rem;
-    background: url("../../assets/userrank.png") no-repeat;
-    background-size: 100% auto;
+    width: 9rem;
+    height: 2.23rem;
+    background: url("../../assets/userrank.png") no-repeat center;
+    background-size: 9rem 2.23rem;
     text-align: center;
     line-height: 2.2rem;
     font-size: 0.9rem;
   }
   .ranktitle {
-    width: 100%;
+    width: 9rem;
     height: 2.5rem;
     background: url("../../assets/rank.png") no-repeat center;
     background-size: 70% auto;
@@ -310,7 +321,7 @@ export default {
       margin-left: 0.5rem;
     }
     .rank-info {
-      width: 4rem;
+      width: 3rem;
       height: 1.5rem;
       display: flex;
       flex-direction: column;
