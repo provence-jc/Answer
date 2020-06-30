@@ -120,7 +120,7 @@ export default {
         console.log(res);
         sessionStorage.setItem("ranklist", JSON.stringify(res));
       });
-      // this.$router.push("/ranking");
+      this.$router.push("/ranking");
     },
     lastnamechange() {
       this.lastnameval = 1;
