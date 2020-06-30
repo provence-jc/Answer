@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 // import NavHeader from '@/components/NavHeader'
-import index from "../pages/index";
+import check from "../pages/check";
 
 Vue.use(Router);
 
@@ -9,8 +9,18 @@ export default new Router({
   routes: [
     {
       path: "/",
+      name: "check",
+      component: check
+    },
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("../pages/home")
+    },
+    {
+      path: "/index",
       name: "index",
-      component: index
+      component: () => import("../pages/index")
     },
     {
       path: "/submit",

@@ -5,8 +5,8 @@
       <div class="wrap-title">
         <p>答题解析</p>
       </div>
-      <div class="topic" v-for="(items, index) of test" :key="index">
-        <p class="topic-top">第{{ items.id }}题</p>
+      <div class="topic" v-for="(items, index) of questions" :key="index">
+        <p class="topic-top">第{{ index + 1 }}题</p>
         <p class="topic-text">{{ items.title }}</p>
         <ul class="topic-list" v-if="items.type === 1 || items.type === 3">
           <li>
@@ -114,66 +114,18 @@ export default {
       // optines: {},
       // correct:''
       current: 1,
-      test: [
-        {
-          id: 1,
-          type: 1,
-          title: "新中国国内最大的咸水湖是以下哪个湖泊---sad",
-          options: {
-            A: "青海湖asdfsadf",
-            B: "纳木错",
-            D: "鄱阳湖",
-            C: "长白山天池"
-          },
-          userneed: "A",
-          correct: "A",
-          analyze:
-            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
-          score: 1,
-          deleted_at: null,
-          created_at: "2020-06-22 14:48:16",
-          updated_at: "2020-06-22 10:04:28"
-        },
-        {
-          id: 2,
-          type: 2,
-          title: "新中国国内最大的咸水湖是以下哪个湖泊",
-          options: {
-            A: "青海湖asdfsadf",
-            B: "纳木错",
-            D: "鄱阳湖",
-            C: "长白山天池"
-          },
-          userneed: "A",
-          correct: "AB",
-          analyze:
-            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
-          score: 1,
-          deleted_at: null,
-          created_at: "2020-06-22 14:48:16",
-          updated_at: "2020-06-22 10:04:28"
-        },
-        {
-          id: 3,
-          type: 3,
-          title: "咸水湖是以下哪个湖泊",
-          options: {
-            A: "青海湖asdfsadf",
-            B: "纳木错",
-            D: "鄱阳湖",
-            C: "长白山天池"
-          },
-          userneed: "BCD",
-          correct: "ABC",
-          analyze:
-            "纳木错和青海湖是咸水湖，青海湖更大些。其余两个选项是淡水湖，其中兴凯湖是目前中俄界湖。",
-          score: 1,
-          deleted_at: null,
-          created_at: "2020-06-22 14:48:16",
-          updated_at: "2020-06-22 10:04:28"
-        }
-      ]
+      questions: [],
+      userneed: null
     };
+  },
+  created() {
+    this.questions = JSON.parse(sessionStorage.getItem("datas"));
+    this.questions.forEach(item => {
+      if (item.type === 2) {
+        item.userneed = item.userneed.sort().join("");
+      }
+      return this.questions;
+    });
   },
   methods: {
     pk(val, K) {
@@ -184,6 +136,7 @@ export default {
       }
     },
     btnclick() {
+      sessionStorage.setItem("questions", JSON.stringify(this.questions));
       this.$router.push("/submit");
     }
   }

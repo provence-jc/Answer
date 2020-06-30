@@ -55,22 +55,26 @@ export default {
       datas: null,
       score: null,
       id: "",
-      gender: "1"
+      gender: "1",
+      activity: null,
+      openid: null
     };
   },
   created() {
-    this.datas = JSON.parse(sessionStorage.getItem("datas"));
+    this.datas = JSON.parse(sessionStorage.getItem("questions"));
+    console.log(this.datas);
+
     this.times = sessionStorage.getItem("times");
     this.score = sessionStorage.getItem("score");
     this.id = sessionStorage.getItem("id");
+    this.activity = sessionStorage.getItem("activity");
+    this.openid = sessionStorage.getItem("openid");
   },
   methods: {
     btnback() {
       this.$router.go(-1);
     },
     btnsubmit() {
-      console.log(this.lname);
-      console.log(this.fname);
       const lnamereg = this.$refs.lname.value;
       const fnamereg = this.$refs.fname.value;
       const phonenum = this.$refs.tel.value;
@@ -91,10 +95,12 @@ export default {
       let data = {};
       let roll = {};
       for (let i = 0; i < this.datas.length; i++) {
-        var index = i + 1;
+        const index = this.datas[i].id;
         roll[index] = this.datas[i].userneed;
       }
-      data.roll = roll;
+      console.log(roll);
+      let newroll = JSON.stringify(roll);
+      data.roll = newroll;
       data.seconds = this.times;
       data.score = this.score;
       data.phone = this.tel;
@@ -102,13 +108,18 @@ export default {
       data.lastname = this.lname;
       data.firstname = this.fname;
       data.activity = this.activity;
+      data.openid = this.openid;
       sessionStorage.setItem("lname", this.lname);
       sessionStorage.setItem("fname", this.fname);
       sessionStorage.setItem("tel", this.tel);
       console.log(data);
-
-      console.log(roll);
-
+      // console.log(roll);
+      let postdata = this.$qs.stringify(data);
+      // console.log(postdata);
+      this.$axios.post("/api/receive", postdata).then(res => {
+        console.log(res);
+        sessionStorage.setItem("ranklist", JSON.stringify(res));
+      });
       this.$router.push("/ranking");
     },
     lastnamechange() {
@@ -152,6 +163,7 @@ label.submit-input-info:after {
   height: 1.2rem;
   border-radius: 0.3rem;
   border: 0.05rem solid #ededed;
+  text-indent: 0.3rem;
 }
 .prompt {
   font-size: 0.4rem;

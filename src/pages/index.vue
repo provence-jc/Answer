@@ -5,15 +5,13 @@
         <!-- <p>答题剩余时间：{{time}}秒<span>用时:{{times}}秒</span></p> -->
         XX区答题活动
       </div>
-      <div class="topic" v-for="(items, index) of test" :key="index">
-        <p class="topic-text" v-if="current === items.id">
-          {{ items.id }}.{{ items.title }}
-        </p>
-        <ul
-          class="topic-list"
-          v-if="current === items.id && items.type === 1"
-          :scoreData="score"
-        >
+      <div
+        class="topic"
+        v-for="(items, index) of questions.slice(sort, sort + 1)"
+        :key="index"
+      >
+        <p class="topic-text">{{ current }}.{{ items.title }}</p>
+        <ul class="topic-list" v-if="items.type === 1" :scoreData="score">
           <li>
             <el-radio
               border
@@ -51,11 +49,7 @@
             >
           </li>
         </ul>
-        <ul
-          class="topic-list"
-          v-if="current === items.id && items.type === 2"
-          :scoreData="score"
-        >
+        <ul class="topic-list" v-if="items.type === 2" :scoreData="score">
           <el-checkbox-group v-model="items.userneed" @change="answerChange">
             <el-checkbox border label="A">A {{ items.options.A }}</el-checkbox>
             <br />
@@ -66,11 +60,7 @@
             <el-checkbox border label="D">D {{ items.options.D }}</el-checkbox>
           </el-checkbox-group>
         </ul>
-        <ul
-          class="topic-list"
-          v-if="current === items.id && items.type === 3"
-          :scoreData="score"
-        >
+        <ul class="topic-list" v-if="items.type === 3" :scoreData="score">
           <li class="imagewrap">
             <el-radio
               border
@@ -120,7 +110,6 @@
 </template>
 
 <script>
-// import bus from '../../assets/bus'
 export default {
   data() {
     return {
@@ -133,68 +122,9 @@ export default {
       // optines: {},
       // correct:''
       current: 1,
-      test: [
-        {
-          id: 1,
-          type: 1,
-          title: "以下哪位明代人物不是军人--test",
-          options: {
-            A: "aa",
-            B: "a",
-            C: "a",
-            D: "a"
-          },
-          correct: "C",
-          analyze:
-            "抗倭名将戚继光，袁崇焕和吴三桂都是崇祯年间镇守山海关边防的将领，魏忠贤是宦官。",
-          score: 3,
-          deleted_at: null,
-          created_at: "2020-06-23 02:44:00",
-          updated_at: "2020-06-23 07:16:40",
-          userneed: []
-        },
-        {
-          id: 2,
-          type: 2,
-          title: "地球最高峰是一下哪座山峰",
-          options: {
-            A: "乔戈里峰",
-            B: "埃文森峰",
-            C: "珠穆朗玛峰",
-            D: "奥林匹斯峰"
-          },
-          correct: "BC",
-          analyze:
-            "乔戈里峰是我国另一座海拔八千米以上的高峰，奥林匹斯峰是火星最高峰",
-          score: 2,
-          deleted_at: null,
-          created_at: "2020-06-22 14:48:16",
-          updated_at: "2020-06-22 08:01:53",
-          userneed: []
-        },
-        {
-          id: 3,
-          type: 3,
-          title: "下面哪个是一幅地图",
-          options: {
-            A:
-              "http://d.ifengimg.com/w50_h58_q70/x0.ifengimg.com/ucms/2020_21/F319365A850BF48FF65A59D0155C2CE3FBEC1C63_w50_h58.jpg",
-            B:
-              "http://d.ifengimg.com/w50_h58_q70/x0.ifengimg.com/ucms/2020_20/3DB17BDF1D4B7C8BF7BEE0E0642D025812B04446_w50_h58.png",
-            C:
-              "https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1879585545,51626802&fm=26&gp=0.jpg",
-            D:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSo_-9LBmFHv_-QK-nLv5pK-j9C-96yLUkPqyI9XTX6TLeFGpF_&usqp=CAU"
-          },
-          correct: "B",
-          analyze: "其余的图是佛像",
-          score: 5,
-          deleted_at: null,
-          created_at: "2020-06-22 14:48:16",
-          updated_at: "2020-06-23 03:40:14",
-          userneed: []
-        }
-      ]
+      questions: [],
+      sort: 0,
+      activity: null
     };
   },
   created() {
@@ -205,13 +135,14 @@ export default {
     this.mounted();
     this.$axios({
       method: "get",
-      url: "http://oea.test:8080/send",
+      url: "/api/send",
       data: ""
     })
       .then(response => {
         // 这里使用了ES6的语法
         console.log(response); // 请求成功返回的数据
-        // sessionStorage.setItem('id', response.activity)
+        this.questions = response.data.data.questions;
+        sessionStorage.setItem("activity", response.data.data.rules.activity);
       })
       .catch(error => {
         console.log(error); // 请求失败返回的数据
@@ -231,44 +162,44 @@ export default {
       this.answer = 1;
     },
     submitBtn() {
+      if (this.answer === 0) {
+        this.$message("请选择答案");
+        return;
+      }
+      if (this.questions[this.current - 1].type === 2) {
+        if (
+          this.questions[this.current - 1].correct ===
+          this.questions[this.current - 1].userneed.sort().join("")
+        ) {
+          this.score += this.questions[this.current - 1].score;
+        }
+      } else {
+        if (
+          this.questions[this.current - 1].correct ==
+          this.questions[this.current - 1].userneed
+        ) {
+          this.score += this.questions[this.current - 1].score;
+        }
+      }
       if (this.button == 0) {
         // 提交操作
         this.beforeDestroy();
 
-        if (this.current >= this.test.length) {
+        if (this.current >= this.questions.length) {
           sessionStorage.setItem("score", this.score);
           sessionStorage.setItem("times", this.times);
-          sessionStorage.setItem("datas", JSON.stringify(this.test));
+          sessionStorage.setItem("datas", JSON.stringify(this.questions));
           this.$router.push("/parsing");
         }
       } else {
-        if (this.answer == 0) {
-          this.$message("请选择答案");
-          return;
-        }
-
         this.answer = 0;
-        if (this.test[this.current - 1].type == 2) {
-          if (
-            this.test[this.current - 1].correct ==
-            this.test[this.current - 1].userneed.sort().join("")
-          ) {
-            this.score += this.test[this.current - 1].score;
-          }
-        } else {
-          if (
-            this.test[this.current - 1].correct ==
-            this.test[this.current - 1].userneed
-          ) {
-            this.score += this.test[this.current - 1].score;
-          }
-        }
-
         this.current++;
-        if (this.current == this.test.length) {
+        this.sort++;
+        if (this.current === this.questions.length) {
           this.button = 0;
         }
       }
+      console.log(this.score);
     }
   }
 };
