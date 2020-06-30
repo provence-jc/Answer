@@ -122,7 +122,7 @@ export default {
       // optines: {},
       // correct:''
       current: 1,
-      questions: [],
+      questions: null,
       sort: 0,
       activity: null
     };
@@ -133,20 +133,8 @@ export default {
     //   this.times++
     // }, 1000);
     this.mounted();
-    this.$axios({
-      method: "get",
-      url: "/api/send",
-      data: ""
-    })
-      .then(response => {
-        // 这里使用了ES6的语法
-        console.log(response); // 请求成功返回的数据
-        this.questions = response.data.data.questions;
-        sessionStorage.setItem("activity", response.data.data.rules.activity);
-      })
-      .catch(error => {
-        console.log(error); // 请求失败返回的数据
-      });
+    this.questions = JSON.parse(sessionStorage.getItem("questions"));
+    console.log(this.questions);
   },
   methods: {
     get() {

@@ -136,7 +136,7 @@ export default {
       }
     },
     btnclick() {
-      sessionStorage.setItem("questions", JSON.stringify(this.questions));
+      sessionStorage.setItem("newques", JSON.stringify(this.questions));
       this.$router.push("/submit");
     }
   }

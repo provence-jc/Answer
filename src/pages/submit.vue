@@ -61,7 +61,7 @@ export default {
     };
   },
   created() {
-    this.datas = JSON.parse(sessionStorage.getItem("questions"));
+    this.datas = JSON.parse(sessionStorage.getItem("newques"));
     console.log(this.datas);
 
     this.times = sessionStorage.getItem("times");
@@ -120,7 +120,7 @@ export default {
         console.log(res);
         sessionStorage.setItem("ranklist", JSON.stringify(res));
       });
-      this.$router.push("/ranking");
+      // this.$router.push("/ranking");
     },
     lastnamechange() {
       this.lastnameval = 1;

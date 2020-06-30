@@ -55,6 +55,8 @@ export default {
   },
   created () {
     this.$axios.get('/api/send').then(res => {
+      console.log(res.data.data.questions)
+
       let data = res.data.data.rules
       this.address = data.address
       this.begin = data.begin
@@ -80,6 +82,8 @@ export default {
             item.level = '幸运奖'
             break
         }
+        sessionStorage.setItem('questions', JSON.stringify(res.data.data.questions))
+        sessionStorage.setItem('activity', res.data.data.rules.activity)
         return this.award
       })
     })
