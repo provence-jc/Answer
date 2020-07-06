@@ -50,11 +50,15 @@ export default {
       num: null,
       sponsor: null,
       sub_title: null,
-      title: null
+      title: null,
+      acid: null
     }
   },
   created () {
-    this.$axios.get('/api/send').then(res => {
+    this.acid = sessionStorage.getItem('acid')
+    this.$axios.get('/send?' + this.acid).then(res => {
+      console.log(res)
+
       console.log(res.data.data.questions)
 
       let data = res.data.data.rules
@@ -144,7 +148,8 @@ export default {
   margin-top: 0.3rem;
 }
 .keynode{
-  color:#ccb54b
+  color:#E2A642;
+  font-weight: 600
 }
 .startbtn{
   margin-top: 1rem;
@@ -154,7 +159,7 @@ export default {
 .btn{
   width: 9rem;
   height: 1.5rem;
-  background-color: #ccb54b;
+  background-color: #E2A642;
   border-radius: 0.1rem;
   border: none;
   color: #fff;

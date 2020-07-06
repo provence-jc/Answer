@@ -94,7 +94,9 @@
         </ul>
       </div>
       <div class="btn">
-        <button class="subbtn" @click="btnclick">下一步</button>
+        <button class="subbtn" @click="btnclick">
+          提交个人信息&nbsp;&nbsp;&nbsp;&nbsp;查看排名
+        </button>
       </div>
     </div>
   </div>
@@ -228,7 +230,7 @@ export default {
   justify-content: center;
   margin-top: 1rem;
   .subbtn {
-    width: 6rem;
+    width: 7rem;
     height: 1.2rem;
     background-color: #6495ed;
     color: #ffffff;

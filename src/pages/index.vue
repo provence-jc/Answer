@@ -10,7 +10,10 @@
         v-for="(items, index) of questions.slice(sort, sort + 1)"
         :key="index"
       >
-        <p class="topic-text">{{ current }}.{{ items.title }}</p>
+        <p class="topic-text">
+          {{ current }}.{{ items.title
+          }}{{ items.type === 1 ? "（单选题）" : "（多选题）" }}
+        </p>
         <ul class="topic-list" v-if="items.type === 1" :scoreData="score">
           <li>
             <el-radio
@@ -102,7 +105,7 @@
       <div class="clear"></div>
       <div class="btn">
         <button class="submit" @click="submitBtn">
-          {{ button == 1 ? "下一题" : "提交" }}
+          {{ button == 1 ? "下一题" : "提交答题，查看解析" }}
         </button>
       </div>
     </div>
@@ -123,6 +126,7 @@ export default {
       // correct:''
       current: 1,
       questions: null,
+      ques: null,
       sort: 0,
       activity: null
     };

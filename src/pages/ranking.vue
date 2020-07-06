@@ -7,15 +7,12 @@
       infinite-scroll-disabled="disabled"
       infinite-scroll-distance="10"
     >
-      <!-- <div class="wrap-title">
-        <p>答题排行榜</p>
-      </div> -->
       <div class="userranktitle">您当前的排名</div>
       <div class="ranking">
         <span class="rank-num"
-          >{{ ranksort }}<span class="rank-name">{{ lname }}先生</span
+          >{{ ranksort + 1 }}<span class="rank-name">{{ lastname }}先生</span
           ><span class="rank-tel">
-            {{ tel.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2") }}
+            {{ tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') }}
           </span></span
         >
         <div class="rank-info">
@@ -28,9 +25,9 @@
         <span class="rank-num"
           >{{ index + 1
           }}<span class="rank-name"
-            >{{ item.lastname }}{{ item.gender === 1 ? "先生" : "女士" }}</span
+            >{{ item.name }}{{ item.gender === 1 ? '先生' : '女士' }}</span
           ><span class="rank-tel">{{
-            item.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")
+            item.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
           }}</span></span
         >
         <div class="rank-info">
@@ -53,56 +50,182 @@
 
 <script>
 export default {
-  name: "ranking",
+  name: 'ranking',
   data() {
     return {
       data: null,
       list: null,
       listnum: 3, // 排行榜显示条数
       sublist: [], // 滚动加载后增加的数据
-      lanme: null,
+      name: null,
       tel: null,
       times: null,
       score: null,
       ranksort: 0, // 当前用户排名
       loading: false,
-      noMore: false
-    };
+      noMore: false,
+      // testname: "司马光",
+      lastname: null
+    }
   },
   created() {
-    this.data = JSON.parse(sessionStorage.getItem("ranklist")).data.data;
-    this.list = this.data.list;
-    this.lname = sessionStorage.getItem("lname");
-    this.tel = sessionStorage.getItem("tel");
-    this.times = sessionStorage.getItem("times");
-    this.score = sessionStorage.getItem("score");
-    this.ranksort = this.data.sort;
+    this.data = JSON.parse(sessionStorage.getItem('ranklist')).data.data
+    this.list = this.data.list
+    // console.log(this.list);
+    this.name = sessionStorage.getItem('name')
+    // console.log(this.name);
+    this.getLastName(this.name)
+    // console.log(this.lastname);
+    this.tel = sessionStorage.getItem('tel')
+    this.times = sessionStorage.getItem('times')
+    this.score = sessionStorage.getItem('score')
+    this.ranksort = this.data.sort
+    this.list.forEach(item => {
+      let lname = ''
+      this.getLastName(item.name)
+      // console.log(item.name);
+      lname = this.lastname
+      item.name = lname
+      return this.list
+    })
+    // console.log(this.list);
   },
   computed: {
     disabled() {
-      return this.loading || this.noMore;
+      return this.loading || this.noMore
     }
   },
   methods: {
     // 滚动加载
     loadMore() {
-      let addnum = 2; // 滚动加载条数
+      let addnum = 2 // 滚动加载条数
       if (this.listnum + addnum > this.list.length) {
-        this.loading = false;
-        this.noMore = true;
-        return;
+        this.loading = false
+        this.noMore = true
+        return
       }
-      this.loading = true;
+      this.loading = true
       setTimeout(() => {
-        this.listnum = this.list.length;
-        this.sublist = this.list.slice(this.listnum, this.listnum + addnum);
-        this.list = this.list.concat(this.sublist);
-        this.loading = false;
-        return this.listnum;
-      }, 2000);
+        this.listnum = this.list.length
+        this.sublist = this.list.slice(this.listnum, this.listnum + addnum)
+        this.list = this.list.concat(this.sublist)
+        this.loading = false
+        return this.listnum
+      }, 2000)
+    },
+    getLastName(fullname) {
+      let hyphenated = [
+        '欧阳',
+        '太史',
+        '端木',
+        '上官',
+        '司马',
+        '东方',
+        '独孤',
+        '南宫',
+        '万俟',
+        '闻人',
+        '夏侯',
+        '诸葛',
+        '尉迟',
+        '公羊',
+        '赫连',
+        '澹台',
+        '皇甫',
+        '宗政',
+        '濮阳',
+        '公冶',
+        '太叔',
+        '申屠',
+        '公孙',
+        '慕容',
+        '仲孙',
+        '钟离',
+        '长孙',
+        '宇文',
+        '城池',
+        '司徒',
+        '鲜于',
+        '司空',
+        '汝嫣',
+        '闾丘',
+        '子车',
+        '亓官',
+        '司寇',
+        '巫马',
+        '公西',
+        '颛孙',
+        '壤驷',
+        '公良',
+        '漆雕',
+        '乐正',
+        '宰父',
+        '谷梁',
+        '拓跋',
+        '夹谷',
+        '轩辕',
+        '令狐',
+        '段干',
+        '百里',
+        '呼延',
+        '东郭',
+        '南门',
+        '羊舌',
+        '微生',
+        '公户',
+        '公玉',
+        '公仪',
+        '梁丘',
+        '公仲',
+        '公上',
+        '公门',
+        '公山',
+        '公坚',
+        '左丘',
+        '公伯',
+        '西门',
+        '公祖',
+        '第五',
+        '公乘',
+        '贯丘',
+        '公皙',
+        '南荣',
+        '东里',
+        '东宫',
+        '仲长',
+        '子书',
+        '子桑',
+        '即墨',
+        '达奚',
+        '褚师'
+      ]
+      // console.log(fullname);
+      let hyset = new Set(hyphenated)
+      let vLength = fullname.length
+      // 前为姓,后为名
+      let lastname = ''
+      let firstname = ''
+      if (vLength > 2) {
+        var preTwoWords = fullname.substr(0, 2)
+        // 取命名的前两个字,看是否在复姓库中
+        if (hyset.has(preTwoWords)) {
+          firstname = preTwoWords
+          lastname = fullname.substr(2)
+        } else {
+          firstname = fullname.substr(0, 1)
+          lastname = fullname.substr(1)
+        }
+      } else if (vLength === 2) {
+        // 全名只有两个字时,以前一个为姓,后一下为名
+        firstname = fullname.substr(0, 1)
+        lastname = fullname.substr(1)
+      } else {
+        firstname = fullname
+      }
+      return (this.lastname = firstname)
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -125,7 +248,7 @@ export default {
   .userranktitle {
     width: 9rem;
     height: 2.23rem;
-    background: url("../../assets/userrank.png") no-repeat center;
+    background: url('../../assets/userrank.png') no-repeat center;
     background-size: 9rem 2.23rem;
     text-align: center;
     line-height: 2.2rem;
@@ -134,7 +257,7 @@ export default {
   .ranktitle {
     width: 9rem;
     height: 2.5rem;
-    background: url("../../assets/rank.png") no-repeat center;
+    background: url('../../assets/rank.png') no-repeat center;
     background-size: 70% auto;
     text-align: center;
     line-height: 2rem;
