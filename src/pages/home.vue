@@ -51,48 +51,53 @@ export default {
       sponsor: null,
       sub_title: null,
       title: null,
-      acid: null
+      acid: 'activity=1'
     }
   },
   created () {
-    this.acid = sessionStorage.getItem('acid')
-    this.$axios.get('/send?' + this.acid).then(res => {
-      console.log(res)
-
-      console.log(res.data.data.questions)
-
-      let data = res.data.data.rules
-      this.address = data.address
-      this.begin = data.begin
-      this.end = data.end
-      this.num = data.num
-      this.sponsor = data.sponsor
-      this.sub_title = data.sub_title
-      this.address = data.address
-      this.title = data.title
-      this.award = data.award
-      this.award.forEach(item => {
-        switch (item.level) {
-          case 1:
-            item.level = '一等奖'
-            break
-          case 2:
-            item.level = '二等奖'
-            break
-          case 3:
-            item.level = '三等奖'
-            break
-          case 4:
-            item.level = '幸运奖'
-            break
-        }
-        sessionStorage.setItem('questions', JSON.stringify(res.data.data.questions))
-        sessionStorage.setItem('activity', res.data.data.rules.activity)
-        return this.award
-      })
-    })
+    this.acid = sessionStorage.getItem('acid').slice(0, 10)
+    console.log(this.acid)
+  },
+  mounted() {
+    this.getData()
   },
   methods: {
+    getData () {
+      this.$axios.get('/send?' + this.acid).then(res => {
+        console.log(res)
+        console.log(res.data.data.questions)
+
+        let data = res.data.data.rules
+        this.address = data.address
+        this.begin = data.begin
+        this.end = data.end
+        this.num = data.num
+        this.sponsor = data.sponsor
+        this.sub_title = data.sub_title
+        this.address = data.address
+        this.title = data.title
+        this.award = data.award
+        this.award.forEach(item => {
+          switch (item.level) {
+            case 1:
+              item.level = '一等奖'
+              break
+            case 2:
+              item.level = '二等奖'
+              break
+            case 3:
+              item.level = '三等奖'
+              break
+            case 4:
+              item.level = '幸运奖'
+              break
+          }
+          sessionStorage.setItem('questions', JSON.stringify(res.data.data.questions))
+          // sessionStorage.setItem('activity', res.data.data.rules.activity)
+          return this.award
+        })
+      })
+    },
     start () {
       this.$router.push('/index')
     }

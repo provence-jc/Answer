@@ -1,41 +1,41 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Vue from 'vue'
+import Router from 'vue-router'
 // import NavHeader from '@/components/NavHeader'
-import check from "../pages/check";
+import check from '../pages/check'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: "/",
-      name: "check",
-      component: check
+      path: '/',
+      name: 'check',
+      component: resolve => require(['../pages/check.vue'], resolve)
     },
     {
-      path: "/home",
-      name: "home",
-      component: () => import("../pages/home")
+      path: '/home',
+      name: 'home',
+      component: resolve => require(['../pages/home'], resolve)
     },
     {
-      path: "/index",
-      name: "index",
-      component: () => import("../pages/index")
+      path: '/index',
+      name: 'index',
+      component: resolve => require(['../pages/index'], resolve)
     },
     {
-      path: "/submit",
-      name: "submit",
-      component: () => import("../pages/submit")
+      path: '/submit',
+      name: 'submit',
+      component: resolve => require(['../pages/submit'], resolve)
     },
     {
-      path: "/parsing",
-      name: "parsing",
-      component: () => import("../pages/parsing")
+      path: '/parsing',
+      name: 'parsing',
+      component: resolve => require(['../pages/parsing'], resolve)
     },
     {
-      path: "/ranking",
-      name: "ranking",
-      component: () => import("../pages/ranking")
+      path: '/ranking',
+      name: 'ranking',
+      component: resolve => require(['../pages/ranking'], resolve)
     }
   ]
-});
+})

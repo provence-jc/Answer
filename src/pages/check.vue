@@ -17,6 +17,8 @@ export default {
     // console.log(url)
 
     // const url =
+    //   'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw8NSQpWgyk1nEhn7qWMnXAw&activity=1'
+    // 'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw3NIquaai9R5NXp_dlzM4zo&activity=1#/'
     // 'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw3NIquaai9R5NXp_dlzM4zo&activity=1'
     // 'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw2NVHG5eymK3MlXdTfHU8Kg&activity=1'
     // "http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw2NVHG5eymK3MlXdTfHU9Kg#/";
