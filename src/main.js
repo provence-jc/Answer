@@ -16,7 +16,7 @@ Vue.prototype.$qs = qs
 
 // 在main.js设置全局的请求次数，请求的间隙
 axios.defaults.retry = 4
-axios.defaults.retryDelay = 1000
+axios.defaults.retryDelay = 200
 
 axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
   var config = err.config

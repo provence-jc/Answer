@@ -9,39 +9,15 @@
         <p class="topic-top">第{{ index + 1 }}题</p>
         <p class="topic-text">{{ items.title }}</p>
         <ul class="topic-list" v-if="items.type === 1 || items.type === 3">
-          <li>
-            <!-- <el-radio v-model="items.userneed" label="A">{{
-
-            }}</el-radio> -->
-            <span>A&nbsp;&nbsp;{{ items.options.A }}</span>
-            <div v-if="items.correct == 'A'" class="topic-list-correct">
-              正确
-            </div>
-          </li>
-          <li>
-            <!-- <el-radio v-model="items.userneed" label="B">{{
-              items.options.B
-            }}</el-radio> -->
-            <span>B&nbsp;&nbsp;{{ items.options.B }}</span>
-            <div v-if="items.correct == 'B'" class="topic-list-correct">
-              正确
-            </div>
-          </li>
-          <li>
-            <!-- <el-radio v-model="items.userneed" label="C">{{
-              items.options.C
-            }}</el-radio> -->
-            <span>C&nbsp;&nbsp;{{ items.options.C }}</span>
-            <div v-if="items.correct == 'C'" class="topic-list-correct">
-              正确
-            </div>
-          </li>
-          <li>
-            <!-- <el-radio v-model="items.userneed" label="D">{{
-              items.options.D
-            }}</el-radio> -->
-            <span>D&nbsp;&nbsp;{{ items.options.D }}</span>
-            <div v-if="items.correct == 'D'" class="topic-list-correct">
+          <li v-for="(value, k, index) in items.options" :key="index">
+            <span v-if="items.type === 1" class="topic-list-text">{{k}}&nbsp;&nbsp;{{ value }}</span>
+            <span v-if="items.type === 3"
+              >{{ k }}&nbsp;&nbsp;<img
+                class="images"
+                :src="'http://oea.fuhaoyun.cn/storage/' + value"
+                alt=""
+            /></span>
+            <div v-if="items.correct == k" class="topic-list-correct">
               正确
             </div>
           </li>
@@ -55,31 +31,9 @@
           </div>
         </ul>
         <ul class="topic-list" v-if="items.type === 2">
-          <li>
-            <!-- <el-checkbox label="A">{{ items.options.A }}</el-checkbox> -->
-            <span>A&nbsp;&nbsp;{{ items.options.A }}</span>
-            <div v-if="pk(items.correct, 'A')" class="topic-list-correct">
-              正确
-            </div>
-          </li>
-          <li>
-            <!-- <el-checkbox label="B">{{ items.options.B }}</el-checkbox> -->
-            <span>B&nbsp;&nbsp;{{ items.options.B }}</span>
-            <div v-if="pk(items.correct, 'B')" class="topic-list-correct">
-              正确
-            </div>
-          </li>
-          <li>
-            <!-- <el-checkbox label="C">{{ items.options.C }}</el-checkbox> -->
-            <span>C&nbsp;&nbsp;{{ items.options.C }}</span>
-            <div v-if="pk(items.correct, 'C')" class="topic-list-correct">
-              正确
-            </div>
-          </li>
-          <li>
-            <!-- <el-checkbox label="D">{{ items.options.D }}</el-checkbox> -->
-            <span>D&nbsp;&nbsp;{{ items.options.D }}</span>
-            <div v-if="pk(items.correct, 'D')" class="topic-list-correct">
+          <li v-for="(value, k, index) in items.options" :key="index">
+            <span class="topic-list-text">{{ k }}&nbsp;&nbsp;{{ value }}</span>
+            <div v-if="pk(items.correct, k)" class="topic-list-correct">
               正确
             </div>
           </li>
@@ -104,7 +58,7 @@
 
 <script>
 export default {
-  name: "parsing",
+  name: 'parsing',
   data() {
     return {
       time: 20, // 倒计时
@@ -118,31 +72,31 @@ export default {
       current: 1,
       questions: [],
       userneed: null
-    };
+    }
   },
   created() {
-    this.questions = JSON.parse(sessionStorage.getItem("datas"));
+    this.questions = JSON.parse(sessionStorage.getItem('datas'))
     this.questions.forEach(item => {
       if (item.type === 2) {
-        item.userneed = item.userneed.sort().join("");
+        item.userneed = item.userneed.sort().join('')
       }
-      return this.questions;
-    });
+      return this.questions
+    })
   },
   methods: {
     pk(val, K) {
       if (val.indexOf(K) > -1) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     },
     btnclick() {
-      sessionStorage.setItem("newques", JSON.stringify(this.questions));
-      this.$router.push("/submit");
+      sessionStorage.setItem('newques', JSON.stringify(this.questions))
+      this.$router.push('/submit')
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -194,6 +148,9 @@ export default {
     border-radius: 0.05rem;
     color: #606266;
     font-size: 0.4rem;
+    .topic-list-text{
+      word-break: break-all
+    }
     .topic-list-err {
       width: 1.5rem;
       height: 0.8rem;
@@ -211,6 +168,10 @@ export default {
       border-radius: 0.1rem;
       text-align: center;
       color: #fff;
+    }
+    .images {
+      width: 65%;
+      height: 65%;
     }
   }
   .parsing {

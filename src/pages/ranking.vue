@@ -1,18 +1,18 @@
 <template>
   <div class="container">
-    <div class="title"><p>洛阳市洛龙区第1期答题活动</p></div>
+    <div class="title"><p>{{title}}</p></div>
     <div
       class="wrapper"
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="disabled"
       infinite-scroll-distance="10"
-    >
+      >
       <div class="userranktitle">您当前的排名</div>
       <div class="ranking">
         <span class="rank-num"
-          >{{ ranksort + 1 }}<span class="rank-name">{{ lastname }}先生</span
+          >{{ ranksort + 1 }}<span class="rank-name">{{ name }}先生</span
           ><span class="rank-tel">
-            {{ tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') }}
+            {{ tel }}
           </span></span
         >
         <div class="rank-info">
@@ -27,7 +27,7 @@
           }}<span class="rank-name"
             >{{ item.name }}{{ item.gender === 1 ? '先生' : '女士' }}</span
           ><span class="rank-tel">{{
-            item.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+            item.phone
           }}</span></span
         >
         <div class="rank-info">
@@ -41,7 +41,7 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(255, 255, 255,.5)"
-      >
+        >
         <p class="nomore" v-if="noMore">没有更多了</p>
       </div>
     </div>
@@ -54,14 +54,16 @@ export default {
   data() {
     return {
       data: null,
+      title: null,
       list: null,
-      listnum: 3, // 排行榜显示条数
+      listnum: 6, // 排行榜显示条数
       sublist: [], // 滚动加载后增加的数据
       name: null,
       tel: null,
       times: null,
       score: null,
       ranksort: 0, // 当前用户排名
+      userdata: null,
       loading: false,
       noMore: false,
       // testname: "司马光",
@@ -69,26 +71,21 @@ export default {
     }
   },
   created() {
-    this.data = JSON.parse(sessionStorage.getItem('ranklist')).data.data
-    this.list = this.data.list
-    // console.log(this.list);
-    this.name = sessionStorage.getItem('name')
-    // console.log(this.name);
-    this.getLastName(this.name)
-    // console.log(this.lastname);
-    this.tel = sessionStorage.getItem('tel')
-    this.times = sessionStorage.getItem('times')
-    this.score = sessionStorage.getItem('score')
-    this.ranksort = this.data.sort
-    this.list.forEach(item => {
-      let lname = ''
-      this.getLastName(item.name)
-      // console.log(item.name);
-      lname = this.lastname
-      item.name = lname
-      return this.list
-    })
-    // console.log(this.list);
+    console.log(11)
+    this.title = sessionStorage.getItem('title')
+
+    var that = this
+    if (sessionStorage.getItem('ranklist')) {
+      console.log(22)
+      that.data = JSON.parse(sessionStorage.getItem('ranklist'))
+      that.getRankList()
+    }
+    if (sessionStorage.getItem('rankdata')) {
+      console.log(11)
+      that.data = JSON.parse(sessionStorage.getItem('rankdata'))
+      that.getRankList()
+    }
+    console.log(this.data)
   },
   computed: {
     disabled() {
@@ -96,9 +93,33 @@ export default {
     }
   },
   methods: {
+    getRankList(){
+      this.info = sessionStorage.getItem('info');
+      this.list = this.data.data.data.list
+      this.ranksort = this.data.data.data.sort
+      console.log(this.list);
+      console.log(this.ranksort);
+      let userdata = this.list[this.ranksort]
+      console.log(userdata.name);
+      let name = userdata.name
+      this.name = this.getLastName(name)
+      console.log(this.name);
+      this.tel = userdata.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+      this.times = userdata.seconds
+      this.score = userdata.score
+      this.list.forEach(item => {
+        let lname = ''
+        this.getLastName(item.name)
+        // console.log(item.name);
+        lname = this.lastname
+        item.name = lname
+        item.phone = item.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+        return this.list
+      })
+			},
     // 滚动加载
     loadMore() {
-      let addnum = 2 // 滚动加载条数
+      let addnum = 5 // 滚动加载条数
       if (this.listnum + addnum > this.list.length) {
         this.loading = false
         this.noMore = true
@@ -235,6 +256,7 @@ export default {
   padding: 0.5rem;
   background-color: #409eff;
   .title p {
+    text-align: center;
     font-size: 0.5rem;
     color: #fff;
   }
@@ -314,10 +336,11 @@ export default {
       color: #fff;
       line-height: 0.6rem;
       text-align: center;
+      margin-bottom: 0.1rem;
     }
     .rank-time {
       font-size: 0.4rem;
-      line-height: 0.6rem;
+      line-height: 0.4rem;
     }
   }
 }
@@ -331,6 +354,7 @@ export default {
 }
 .nomore {
   text-align: center;
-  font-size: 0.5rem;
+  font-size: 0.4rem;
+  color: #fff;
 }
 </style>

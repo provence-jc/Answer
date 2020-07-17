@@ -1,32 +1,27 @@
 <template>
-  <div class="check-con">
-    <p class="check-con-info" v-if="back">请退出</p>
-  </div>
+  <div class="check-con"></div>
 </template>
 
 <script>
 export default {
   name: 'check',
   data() {
-    return {
-      back: false
-    }
+    return {}
   },
   created() {
     const url = window.location.href
-    // console.log(url)
+    console.log(url)
 
     // const url =
-    //   'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw8NSQpWgyk1nEhn7qWMnXAw&activity=1'
-    // 'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw3NIquaai9R5NXp_dlzM4zo&activity=1#/'
-    // 'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw3NIquaai9R5NXp_dlzM4zo&activity=1'
-    // 'http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw2NVHG5eymK3MlXdTfHU8Kg&activity=1'
-    // "http://oea.fuhaoyun.cn/dist/index.html?openid=oAahPw2NVHG5eymK3MlXdTfHU9Kg#/";
-    // 'http://oea.fuhaoyun.cn/dist/index.html?wrong=4'
-
-    if (url.indexOf('wrong') > -1 || url.indexOf('open') > -1) {
+    // 'http://oea.fuhaoyun.cn/dist/index.html?unionid=oQ2y0uLUtJdR6ZOfTDn78Y9_S3Yo&activity=1'
+    //   'http://oea.fuhaoyun.cn/dist/index.html?unionid=oQ2y0uLUtJdR6ZOfTDn78Y9_S3Yo&activity=2#/'
+    //   'http://oea.fuhaoyun.cn/dist/index.html?wrong=2&unionid=oQ2y0uLUtJdR6ZOfTDn78Y9_S3Yo&activity=1'
+    console.log(url)
+    if (url.indexOf('wrong') > -1 || url.indexOf('union') > -1) {
       let data = url.substring(url.lastIndexOf('?') + 1)
-      let activity = url.substring(url.lastIndexOf('&') + 1)
+      let unionid = url.substring(url.lastIndexOf('unionid') + 8).slice(0, 28)
+      console.log(unionid)
+      let activity = url.substring(url.lastIndexOf('&') + 1).slice(9, 10)
       sessionStorage.setItem('acid', activity)
 
       console.log(activity)
@@ -34,45 +29,44 @@ export default {
       let wrong = Number(data.slice(6, 7))
       if (wrong) {
         if (wrong === 1) {
-          this.open('请使用微信扫一扫', '请退出重新扫码')
-          this.back = true
+          this.$message('请使用微信扫一扫')
         } else if (wrong === 2) {
-          this.open('你已参加过本次活动', '你已参加过本次活动')
-          this.back = true
+          this.$message('你已参加过本次活动')
+          this.$axios
+            .post('/rank', { activity: activity, unionid: unionid })
+            .then(res => {
+              sessionStorage.setItem('rankdata', JSON.stringify(res))
+              this.$router.push('/ranking')
+            })
         } else if (wrong === 3) {
-          this.open('当前没有活动', '当前没有活动，请关注XXX')
-          this.back = true
+          this.$message('当前没有活动')
         } else if (wrong === 4) {
-          this.open('错误：网络原因', '请关注XXX')
-          this.back = true
+          this.$message('错误：网络原因')
         }
       } else {
-        this.back = false
-        let openid = data.slice(7, 35)
-        console.log(openid)
-        sessionStorage.setItem('openid', openid)
+        console.log(unionid)
+        sessionStorage.setItem('unionId', unionid)
         this.$router.push('/home')
       }
     } else {
-      this.open('请使用微信扫一扫', '请退出重新扫码')
-      this.back = true
-    }
-  },
-  methods: {
-    open(tit, info) {
-      this.$alert(tit, `操作错误`, {
-        confirmButtonText: '确定',
-        // center: true,
-        customClass: 'messageBox-prompt-test',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: info
-          })
-        }
-      })
+      this.$message('请使用微信扫一扫')
     }
   }
+  // methods: {
+  //   open(tit, info) {
+  //     this.$alert(tit, `操作错误`, {
+  //       confirmButtonText: '确定',
+  //       // center: true,
+  //       customClass: 'messageBox-prompt-test',
+  //       callback: action => {
+  //         this.$message({
+  //           type: 'info',
+  //           message: info
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 }
 </script>
 

@@ -40,7 +40,7 @@ export default {
       id: '',
       gender: '1',
       activity: null,
-      openid: null
+      unionId: null
     }
   },
   created() {
@@ -49,10 +49,10 @@ export default {
     this.times = sessionStorage.getItem('times')
     this.score = sessionStorage.getItem('score')
     this.id = sessionStorage.getItem('id')
-    this.activity = sessionStorage.getItem('acid').slice(9, 10)
+    this.activity = sessionStorage.getItem('acid')
     console.log(this.activity)
 
-    this.openid = sessionStorage.getItem('openid')
+    this.unionId = sessionStorage.getItem('unionId')
   },
   methods: {
     // btnback() {
@@ -84,7 +84,7 @@ export default {
       data.gender = this.gender
       data.name = this.name
       data.activity = this.activity
-      data.openid = this.openid
+      data.unionid = this.unionId
       console.log(this.name)
       sessionStorage.setItem('name', this.name)
       sessionStorage.setItem('tel', this.tel)
@@ -94,8 +94,14 @@ export default {
       // console.log(postdata);
       this.$axios.post('/receive', postdata).then(res => {
         console.log(res)
-        sessionStorage.setItem('ranklist', JSON.stringify(res))
-        this.$router.push('/ranking')
+        if (res.data.code === 200) {
+							sessionStorage.setItem('ranklist', JSON.stringify(res))
+							this.$router.push('/ranking')
+						} else if(res.data.code === 201) {
+                this.$message('你已参加过本次活动')
+						} else {
+                this.$message('网络错误，请关闭并重新扫码')
+						}
       })
     },
     namechange() {
@@ -114,7 +120,7 @@ export default {
   height: 1rem;
   background-color: #6495ed;
   color: #fff;
-  font-size: 0.5rem;
+  font-size: 0.45rem;
   line-height: 1rem;
   text-align: center;
 }
@@ -123,7 +129,7 @@ export default {
 }
 
 .submit-input-info {
-  font-size: 0.5rem;
+  font-size: 0.44rem;
 }
 
 label.submit-input-info:after {
@@ -160,13 +166,14 @@ label.submit-input-info:after {
   //   border-radius: 0.3rem;
   // }
   .btn-submit {
-    height: 1.5rem;
-    width: 6rem;
-    font-size: 0.5rem;
+    height: 1rem;
+    width: 4rem;
+    font-size: 0.4rem;
     color: #fff;
     background-color: #2571fb;
     border: none;
-    border-radius: 0.3rem;
+    border-radius: 0.7rem;
+    line-height: 1rem;
   }
 }
 </style>
