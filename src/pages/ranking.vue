@@ -10,7 +10,7 @@
       <div class="userranktitle">您当前的排名</div>
       <div class="ranking">
         <span class="rank-num"
-          >{{ ranksort + 1 }}<span class="rank-name">{{ name }}先生</span
+          >{{ ranksort + 1 }}<span class="rank-name">{{ name }}{{ gender === 1 ? '先生' : '女士' }}</span
           ><span class="rank-tel">
             {{ tel }}
           </span></span
@@ -59,6 +59,7 @@ export default {
       listnum: 6, // 排行榜显示条数
       sublist: [], // 滚动加载后增加的数据
       name: null,
+      gender: null,
       tel: null,
       times: null,
       score: null,
@@ -104,6 +105,7 @@ export default {
       let name = userdata.name
       this.name = this.getLastName(name)
       console.log(this.name);
+      this.gender = userdata.gender
       this.tel = userdata.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
       this.times = userdata.seconds
       this.score = userdata.score
